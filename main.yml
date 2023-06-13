@@ -1,0 +1,13 @@
+name: Pull Request Checks
+on:
+  pull_request:
+    types: [opened, synchronize]
+
+jobs:
+  check_pr_description:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check PR Description
+        uses: actions/checkout@v2
+      - name: Run PR Description Check Script
+        run: python check.py
