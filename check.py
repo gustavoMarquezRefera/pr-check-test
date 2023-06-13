@@ -4,6 +4,7 @@ import sys
 import requests
 
 
+
 def check_pr_description():
     pull_request_event = os.environ.get('GITHUB_EVENT_PATH')
     with open(pull_request_event) as event_file:
