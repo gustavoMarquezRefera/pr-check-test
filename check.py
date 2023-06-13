@@ -1,5 +1,6 @@
 import os
-import requests
+import json
+import sys
 
 def check_pr_description():
     pull_request_event = os.environ.get('GITHUB_EVENT_PATH')
