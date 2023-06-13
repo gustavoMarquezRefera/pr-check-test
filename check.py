@@ -9,6 +9,12 @@ def check_pr_description():
     with open(pull_request_event) as event_file:
         pr_data = json.load(event_file)
         description = pr_data['pull_request']['body']
+        
+        if description is None:
+            print("Invalid pull request description!")
+            print("Description is empty.")
+            sys.exit(1)
+        
         description_length = len(description)
         
         if description_length < 200 or description_length > 250:
