@@ -1,13 +1,78 @@
-name: Pull Request Checks
+name: 'Commit Message Check'
+
 on:
+
   pull_request:
-    types: [opened, synchronize]
+
+    types:
+
+      - opened
+
+      - edited
+
+      - reopened
+
+      - synchronize
+
+  pull_request_target:
+
+    types:
+
+      - opened
+
+      - edited
+
+      - reopened
+
+      - synchronize
+
+  push:
+
+    branches:
+
+      - main
+
+      - 'releases/*'
+
+
+
 
 jobs:
-  check_pr_description:
+
+  check-commit-message:
+
+    name: Check Commit Message
+
     runs-on: ubuntu-latest
+
     steps:
-      - name: Check PR Description
-        uses: actions/checkout@v2
-      - name: Run PR Description Check Script
-        run: python check.py
+
+      - name: Check Commit Type
+
+        uses: gsactions/commit-message-checker@v2
+
+        with:
+
+          pattern: '^PREF-[0-9]+\((hotfix|feature)\).+$'
+
+          flags: 'gm'
+
+          error: 'Sua mensagem de commit deve ser iniciado com o card Jira associado a alteração seguido do tipo de mudança (hotfix ou feature)'
+
+      - name: Check Line Length
+
+        uses: gsactions/commit-message-checker@v2
+
+        with:
+
+          pattern: '^[^#].{250}'
+
+          error: 'The maximum line length of 250 characters is exceeded.'
+
+          excludeDescription: 'true' # optional: this excludes the description body of a pull request
+
+          excludeTitle: 'true' # optional: this excludes the title of a pull request
+
+          checkAllCommitMessages: 'true' # optional: this checks all commits associated with a pull request
+
+          accessToken: ${{ secrets.GITHUB_TOKEN }} # github access token is only required if checkAllCommitMessages is true
